@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.auth.LoginActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.example.kotlinmvvvm2.ui.auth.AuthViewModel"
+            />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:background="#E2E2E2"
+        android:layout_height="match_parent"
+        tools:context=".ui.auth.LoginActivity">
 
     <RelativeLayout
         android:padding="16dp"
@@ -56,6 +68,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:text="@={viewmodel.email}"
                 android:hint="belal@gmail.com"
                 android:inputType="textEmailAddress"
                 android:drawablePadding="16dp"
@@ -67,6 +80,7 @@
                 android:layout_height="match_parent"/>
 
             <EditText
+                android:text="@={viewmodel.password}"
                 android:inputType="textPassword"
                 android:hint="password"
                 android:drawablePadding="16dp"
@@ -86,6 +100,7 @@
                 android:layout_height="wrap_content"/>
 
             <Button
+                android:onClick="@{viewmodel::onLoginButtonClick}"
                 android:layout_gravity="center_horizontal"
                 android:textAllCaps="false"
                 android:text="Sign In"
@@ -107,4 +122,12 @@
 
     </RelativeLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <ProgressBar
+        android:visibility="invisible"
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
