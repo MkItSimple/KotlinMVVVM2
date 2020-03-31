@@ -1,36 +1,21 @@
 package com.example.kotlinmvvvm2.data.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.example.kotlinmvvvm2.data.db.AppDatabase
+import com.example.kotlinmvvvm2.data.db.entities.User
 import com.example.kotlinmvvvm2.data.network.MyApi
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.kotlinmvvvm2.data.network.SafeApiRequest
+import com.example.kotlinmvvvm2.data.network.responses.AuthResponse
 
-class UserRepository {
+class UserRepository(
+    private val api: MyApi,
+    private val db: AppDatabase
+) : SafeApiRequest() {
 
-    fun userLogin(email: String, password: String): LiveData<String> {
-        val loginReponse = MutableLiveData<String>()
-
-        MyApi().userLogin(email, password)
-            .enqueue(object: Callback<ResponseBody>{
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    loginReponse.value = t.message
-                }
-
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    if (response.isSuccessful){
-                        loginReponse.value = response.body()?.string()
-                    } else {
-                        loginReponse.value = response.errorBody()?.string()
-                    }
-                }
-
-            })
-        return loginReponse
+    suspend fun userLogin(email: String, password: String): AuthResponse {
+        return apiRequest{ api.userLogin(email, password)}
     }
+
+    suspend fun saveUser(user: User) = db.getUserDao().upsert(user)
+
+    fun getUser() = db.getUserDao().getuser()
 }

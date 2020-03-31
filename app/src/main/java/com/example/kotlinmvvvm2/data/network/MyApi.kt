@@ -1,7 +1,10 @@
 package com.example.kotlinmvvvm2.data.network
 
+import com.example.kotlinmvvvm2.data.network.responses.AuthResponse
+import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Field
@@ -12,16 +15,11 @@ interface MyApi {
 
     @FormUrlEncoded
     @POST("login")
-    fun userLogin(
+    suspend fun userLogin(
         @Field("email") email: String,
         @Field("password") password: String
-    ) : Call<ResponseBody>
+    ) : Response<AuthResponse>
 
-//    suspend fun userLogin(
-//        @Field("email") email: String,
-//        @Field("password") password: String
-//    ) : Response<AuthResponse>
-//
 //    @FormUrlEncoded
 //    @POST("signup")
 //    suspend fun userSignup(
@@ -35,15 +33,15 @@ interface MyApi {
 //
     companion object{
         operator fun invoke(
-//            networkConnectionInterceptor: NetworkConnectionInterceptor
+            networkConnectionInterceptor: NetworkConnectionInterceptor
         ) : MyApi{
-//
-//            val okkHttpclient = OkHttpClient.Builder()
-//                .addInterceptor(networkConnectionInterceptor)
-//                .build()
-//
+
+            val okkHttpclient = OkHttpClient.Builder()
+                .addInterceptor(networkConnectionInterceptor)
+                .build()
+
             return Retrofit.Builder()
-//                .client(okkHttpclient)
+                .client(okkHttpclient)
                 .baseUrl("https://api.simplifiedcoding.in/course-apis/mvvm/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
