@@ -1,6 +1,5 @@
 package com.example.kotlinmvvvm2.ui.auth
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -9,7 +8,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.kotlinmvvvm2.R
 import com.example.kotlinmvvvm2.data.db.entities.User
 import com.example.kotlinmvvvm2.databinding.ActivityLoginBinding
-import com.example.kotlinmvvvm2.ui.home.HomeActivity
 import com.example.kotlinmvvvm2.util.hide
 import com.example.kotlinmvvvm2.util.show
 import com.example.kotlinmvvvm2.util.snackbar
@@ -34,10 +32,10 @@ class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
 
         viewModel.getLoggedInUser().observe(this, Observer { user ->
             if(user != null){
-                Intent(this, HomeActivity::class.java).also {
-                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(it)
-                }
+//                Intent(this, HomeActivity::class.java).also {
+//                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    startActivity(it)
+//                }
             }
         })
     }
